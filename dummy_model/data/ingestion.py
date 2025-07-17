@@ -2,8 +2,8 @@ from typing import Dict
 
 import duckdb
 from hydra_zen import zen
-import kagglehub
 from hydra_zen.third_party.pydantic import pydantic_parser
+import kagglehub
 import pydantic
 from pydantic import BaseModel
 
