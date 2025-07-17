@@ -22,7 +22,7 @@ jobs:
           cache-suffix: ${{ hashFiles('requirements.txt') }} # Invalida o cache quando o arquivo requirements.txt é alterado, garantindo dependências atualizadas.
 
       - name: Instalar Dependências com uv
-        run: uv pip install -r requirements.txt # Instala todas as dependências do projeto usando o uv.
+        run: uv sync # Instala todas as dependências do projeto usando o uv.
 
       - name: Executar Ruff (Verificação de Linting e Formatação)
         uses: astral-sh/ruff-action@v3 # Ação oficial para executar o Ruff.
