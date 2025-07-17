@@ -24,17 +24,13 @@ jobs:
       - name: Instalar Dependências com uv
         run: uv sync # Instala todas as dependências do projeto usando o uv.
 
-      - name: Executar Ruff (Verificação de Linting )
+      - name: Executar Ruff (Verificação de Linting e Formatação)
         uses: astral-sh/ruff-action@v3 # Ação oficial para executar o Ruff.
         with:
-          args: "check --diff"
+          args: "check --diff . && format --check --diff ."
           # Executa o 'ruff check' para linting e verificação de estilo em todo o diretório.
           # Para também verificar a formatação, use: args: "format --check."
 
-      - name: Executar Ruff (Verificação de Formatação)
-        uses: astral-sh/ruff-action@v3 # Ação oficial para executar o Ruff.
-        with:
-          args: "format --check --diff"
     #   - name: Executar Testes Unitários com Pytest
     #     uses: pavelzw/pytest-action@v2 # Ação para executar testes pytest e gerar relatórios.
     #     with:
