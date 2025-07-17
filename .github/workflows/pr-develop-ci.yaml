@@ -1,0 +1,46 @@
+name: CI/CD para Pull Requests na Develop
+
+on:
+  pull_request:
+    branches:
+      - develop # Este workflow é acionado para pull requests direcionados à branch 'develop'
+
+jobs:
+  lint_and_format:
+    runs-on: ubuntu-latest # Define o ambiente de execução como o runner mais recente do Ubuntu
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4 # Baixa o código do repositório para o ambiente do runner. Essencial para todas as etapas subsequentes.
+
+      - name: Configurar Python e uv
+        uses: astral-sh/setup-uv@v6 # Ação oficial para configurar o uv, que também configura o Python.
+        with:
+          python-version: '3.12' # Especifica a versão do Python a ser usada. Recomenda-se fixar uma versão específica.
+          activate-environment: true # Ativa automaticamente o ambiente virtual uv após a configuração.
+          enable-cache: true # Habilita o caching do diretório de cache do uv pelo GitHub Actions.
+          cache-suffix: ${{ hashFiles('requirements.txt') }} # Invalida o cache quando o arquivo requirements.txt é alterado, garantindo dependências atualizadas.
+
+      - name: Instalar Dependências com uv
+        run: uv sync # Instala todas as dependências do projeto usando o uv.
+
+      - name: Configurar Ação do Ruff (Verificação de Linting)
+        uses: astral-sh/ruff-action@v3 # Ação oficial para executar o Ruff.
+
+      - name: Executar Ruff (Linting e Verificação de Estilo)
+        run: uv run ruff check --diff
+          # Executa o 'ruff check' para linting e verificação de estilo em todo o diretório.
+          # Para também verificar a formatação, use: args: "format --check."
+
+      - name: Executar Ruff (Verificação de Formatação)
+        run: uv run ruff format --check --diff
+
+    #   - name: Executar Testes Unitários com Pytest
+    #     uses: pavelzw/pytest-action@v2 # Ação para executar testes pytest e gerar relatórios.
+    #     with:
+    #       job-summary: true # Habilita um resumo detalhado dos testes no GitHub Job Summary.
+    #       custom-arguments: '-v' # Argumentos personalizados para pytest, '-v' para saída verbosa.
+
+      - name: Otimizar Cache do uv para CI
+        run: uv cache prune --ci # Comando para otimizar o cache do uv, removendo wheels pré-construídas mas mantendo as construídas a partir do código-fonte.
+                                 # Isso é recomendado para ambientes de CI para maximizar a eficiência do cache.
