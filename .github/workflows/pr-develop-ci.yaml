@@ -6,7 +6,7 @@ on:
       - develop # Este workflow é acionado para pull requests direcionados à branch 'develop'
 
 jobs:
-  lint_and_test:
+  lint_and_format:
     runs-on: ubuntu-latest # Define o ambiente de execução como o runner mais recente do Ubuntu
 
     steps:
