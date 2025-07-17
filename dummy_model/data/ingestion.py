@@ -11,7 +11,6 @@ from dummy_model.config import PROJ_ROOT
 
 
 class DataIngestion(pydantic.BaseModel):
-
     def get_data_from_kaggle(kaggle_dataset: str, path: str = None):
         return kagglehub.dataset_download(kaggle_dataset, path=path)
 
@@ -31,15 +30,10 @@ class MyConfig(BaseModel):
 @zen(instantiation_wrapper=pydantic_parser)
 def my_app(data: MyConfig):
     input_path = DataIngestion.get_data_from_kaggle(
-        data.from_kaggle["dataset"],
-        data.from_kaggle["file_name"] 
+        data.from_kaggle["dataset"], data.from_kaggle["file_name"]
     )
     print(DataIngestion.write_raw_data(input_path))
 
 
 if __name__ == "__main__":
-    my_app.hydra_main(
-        version_base=None,
-        config_path=f"{PROJ_ROOT}/conf",
-        config_name="config"
-    )
+    my_app.hydra_main(version_base=None, config_path=f"{PROJ_ROOT}/conf", config_name="config")
