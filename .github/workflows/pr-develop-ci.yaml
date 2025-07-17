@@ -33,7 +33,7 @@ jobs:
           # Para também verificar a formatação, use: args: "format --check."
 
       - name: Executar Ruff (Verificação de Formatação)
-        run: uv run ruff format --check --diff"
+        run: uv run ruff format --check --diff
 
     #   - name: Executar Testes Unitários com Pytest
     #     uses: pavelzw/pytest-action@v2 # Ação para executar testes pytest e gerar relatórios.
