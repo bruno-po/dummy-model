@@ -27,7 +27,7 @@ jobs:
       - name: Executar Ruff (Verificação de Linting e Formatação)
         uses: astral-sh/ruff-action@v3 # Ação oficial para executar o Ruff.
         with:
-          args: "check." # Executa o 'ruff check' para linting e verificação de estilo em todo o diretório.
+          args: "check" # Executa o 'ruff check' para linting e verificação de estilo em todo o diretório.
           # Para também verificar a formatação, use: args: "format --check."
 
     #   - name: Executar Testes Unitários com Pytest
